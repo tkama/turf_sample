@@ -1,0 +1,48 @@
+<html>
+<head>
+	<title>turf.js test</title>
+    <link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src="./kp.js"></script>
+    <script src='//api.tiles.mapbox.com/mapbox.js/plugins/turf/v1.4.0/turf.min.js'></script>
+</head>
+<body>
+	 <div id="map" style="height:100%;"></div>
+</body>
+	<script type="text/javascript">
+	//leaflet mapオブジェクトの作成
+	var map = L.map("map" ).setView([35.68956144849349,139.70058739185333], 15);
+	
+	//オープンストリートマップのタイル地図の定義	
+	L.tileLayer('//{s}.tile.osm.org/{z}/{x}/{y}.png', {
+	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+	}).addTo(map);
+
+  //新宿駅のGeoJSONデータ
+  var point1 = {
+    "type": "Feature",
+    "properties": {},
+    "geometry": {
+      "type": "Point",
+      "coordinates": [139.70058739185333,35.68956144849349]
+    }
+  };
+  //代々木駅のGeoJSONデータ
+  var point2 = {
+    "type": "Feature",
+    "properties": {},
+    "geometry": {
+      "type": "Point",
+      "coordinates": [139.7020572423935,35.683975674120234]
+    }
+  };
+  var units = "meters"; //can be degrees, radians, miles, or kilometers
+  var buffered = turf.buffer( point1 , 500 , units );
+
+	//2地点の地図表示
+	L.geoJson(point1).addTo(map).bindPopup("<h2>新宿駅</h2>");;
+	L.geoJson(point2).addTo(map).bindPopup("<h2>代々木駅</h2>");;
+	L.geoJson(buffered).addTo(map).bindPopup("<h2>半径500m</h2>");
+
+	</script>
+</html>

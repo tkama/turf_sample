@@ -1,21 +1,21 @@
 <html>
 <head>
-	<title>turf.js distance関数を試す</title>
+  <title>turf.js distance関数を試す</title>
     <link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
     <script src="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <script src='//api.tiles.mapbox.com/mapbox.js/plugins/turf/v1.4.0/turf.min.js'></script>
 </head>
-<body>
-	 <div id="map" style="height:100%;"></div>
+<body style="margin:0px;padding:0px;">
+   <div id="map" style="height:100%;"></div>
 </body>
-	<script type="text/javascript">
-	//leaflet mapオブジェクトの作成
-	var map = L.map("map" ).setView([35.68956144849349,139.70058739185333], 15 );
-	
-	//オープンストリートマップのタイル地図の定義	
-	L.tileLayer('//{s}.tile.osm.org/{z}/{x}/{y}.png', {
-	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-	}).addTo(map);
+  <script type="text/javascript">
+  //leaflet mapオブジェクトの作成
+  var map = L.map("map" ).setView([35.68956144849349,139.70058739185333], 15 );
+  
+  //オープンストリートマップのタイル地図の定義 
+  L.tileLayer('//{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
 
   //新宿駅のGeoJSONデータ
   var point1 = {
@@ -36,13 +36,11 @@
     }
   };
 
-    //2地点の地図表示
-    L.geoJson(point1).addTo(map);
-    L.geoJson(point2).addTo(map);
-
   var units = "kilometers"; //can be degrees, radians, miles, or kilometers
   var distance = turf.distance(point1, point2, units);
-  window.alert( "新宿駅と代々木駅の直線距離 ："+ distance*1000 + "m" );
 
-	</script>
+  //2地点の地図表示
+  L.geoJson(point1).addTo(map).bindPopup("<h2>新宿駅</h2>");
+  L.geoJson(point2).addTo(map).bindPopup("<h2>代々木駅</h2>新宿駅と代々木駅の直線距離 ："+ Math.round(distance*1000) + "m").openPopup();
+  </script>
 </html>
